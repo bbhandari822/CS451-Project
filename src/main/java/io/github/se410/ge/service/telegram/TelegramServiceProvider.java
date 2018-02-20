@@ -1,6 +1,6 @@
-package io.github.se410.ge.service;
+package io.github.se410.ge.service.telegram;
 
-import io.github.se410.ge.bean.ServiceProvider;
+import io.github.se410.ge.bean.service.ServiceProvider;
 
 public class TelegramServiceProvider implements ServiceProvider {
     @Override
