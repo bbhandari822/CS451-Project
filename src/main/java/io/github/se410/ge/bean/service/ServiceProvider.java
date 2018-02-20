@@ -1,7 +1,9 @@
 package io.github.se410.ge.bean.service;
 
+import java.util.UUID;
+
 public interface ServiceProvider {
-    String getUUID();
+    UUID getUUID();
 
     String getName();
 

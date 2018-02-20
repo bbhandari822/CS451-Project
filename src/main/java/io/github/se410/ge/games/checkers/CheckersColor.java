@@ -1,8 +1,9 @@
 package io.github.se410.ge.games.checkers;
 
-public enum CheckersTeamColor {
+public enum CheckersColor {
     RED,
     BLUE,
-    WHITE,
-    BLACK;
+    BLACK,
+    GREEN,
+    WHITE
 }
