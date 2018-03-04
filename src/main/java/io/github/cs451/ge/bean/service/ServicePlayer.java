@@ -4,4 +4,6 @@ public interface ServicePlayer {
     String getUniqueId();
 
     String getName();
+
+    ServiceProvider getServiceProvider();
 }

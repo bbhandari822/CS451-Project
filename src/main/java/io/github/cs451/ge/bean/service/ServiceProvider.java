@@ -6,6 +6,4 @@ public interface ServiceProvider {
     UUID getUUID();
 
     String getName();
-
-
 }

@@ -2,17 +2,20 @@ package io.github.cs451.ge.service.telegram;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.TelegramBotRegistry;
-import com.jtelegram.api.events.message.TextMessageEvent;
+import com.jtelegram.api.events.inline.InlineQueryEvent;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.update.PollingUpdateProvider;
+import com.jtelegram.api.user.User;
 import io.github.cs451.ge.GameEngine;
 import io.github.cs451.ge.bean.service.ServiceProvider;
-import io.github.cs451.ge.service.telegram.events.GameListenerEvent;
+import io.github.cs451.ge.service.telegram.events.InlineListenerEvent;
+import lombok.Getter;
 
 import java.util.UUID;
 
 public class TelegramServiceProvider implements ServiceProvider {
     private final GameEngine instance;
+    @Getter
     private TelegramBot bot;
 
     public TelegramServiceProvider(GameEngine instance) {
@@ -41,7 +44,7 @@ public class TelegramServiceProvider implements ServiceProvider {
     }
 
     private void registerEvents() {
-        this.bot.getEventRegistry().registerEvent(TextMessageEvent.class, new GameListenerEvent(instance));
+        this.bot.getEventRegistry().registerEvent(InlineQueryEvent.class, new InlineListenerEvent(instance,this));
     }
 
     @Override
@@ -54,5 +57,8 @@ public class TelegramServiceProvider implements ServiceProvider {
         return "Telegram";
     }
 
+    public TelegramServicePlayer getPlayer(User user) {
+        return new TelegramServicePlayer(user, this);
+    }
 
 }
