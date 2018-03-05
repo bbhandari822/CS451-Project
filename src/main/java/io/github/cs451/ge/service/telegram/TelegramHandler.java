@@ -2,23 +2,30 @@ package io.github.cs451.ge.service.telegram;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.TelegramBotRegistry;
+import com.jtelegram.api.events.inline.ChosenInlineResultEvent;
 import com.jtelegram.api.events.inline.InlineQueryEvent;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.update.PollingUpdateProvider;
 import com.jtelegram.api.user.User;
 import io.github.cs451.ge.GameEngine;
-import io.github.cs451.ge.bean.service.ServiceProvider;
+import io.github.cs451.ge.bean.player.HumanPlayer;
+import io.github.cs451.ge.bean.player.Player;
+import io.github.cs451.ge.service.telegram.events.InlineChosenEvent;
 import io.github.cs451.ge.service.telegram.events.InlineListenerEvent;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiFunction;
 
-public class TelegramServiceProvider implements ServiceProvider {
+public class TelegramHandler {
+    private final Map<User, Player> users = new HashMap<>();
     private final GameEngine instance;
     @Getter
     private TelegramBot bot;
 
-    public TelegramServiceProvider(GameEngine instance) {
+    public TelegramHandler(GameEngine instance) {
         this.instance = instance;
         TelegramBotRegistry registry = TelegramBotRegistry.builder()
                 .updateProvider(new PollingUpdateProvider())
@@ -44,21 +51,20 @@ public class TelegramServiceProvider implements ServiceProvider {
     }
 
     private void registerEvents() {
-        this.bot.getEventRegistry().registerEvent(InlineQueryEvent.class, new InlineListenerEvent(instance,this));
+        this.bot.getEventRegistry().registerEvent(InlineQueryEvent.class, new InlineListenerEvent(instance, this));
+        this.bot.getEventRegistry().registerEvent(ChosenInlineResultEvent.class, new InlineChosenEvent(this));
     }
 
-    @Override
-    public UUID getUUID() {
-        return UUID.fromString("b75c678c-6b9e-43de-ac36-87a1184d8b08");
-    }
+    public Player getPlayer(User user) {
+       return users.compute(user, (user1, player) -> {
+            if (player != null) {
+                return player;
+            }
+            HumanPlayer p = new HumanPlayer(UUID.randomUUID());
+            p.addIntegration(user1);
 
-    @Override
-    public String getName() {
-        return "Telegram";
-    }
-
-    public TelegramServicePlayer getPlayer(User user) {
-        return new TelegramServicePlayer(user, this);
+            return p;
+        });
     }
 
 }

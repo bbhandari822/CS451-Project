@@ -1,29 +1,44 @@
 package io.github.cs451.ge.bean.player;
 
-import io.github.cs451.ge.bean.service.ServicePlayer;
-import io.github.cs451.ge.bean.service.ServiceProvider;
+import com.jtelegram.api.user.User;
 import lombok.Getter;
+import lombok.ToString;
 
-import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
+@ToString
 public class HumanPlayer implements Player {
     @Getter
     private final UUID id;
-    private final HashMap<ServiceProvider, ServicePlayer> registeredServices;
-    private String playerName;
+    private User user;
 
     public HumanPlayer(UUID id) {
         this.id = id;
-        this.registeredServices = new HashMap<>();
     }
 
     @Override
     public String getName() {
-        return null;
+        if (user == null) {
+            return "none specified";
+        }
+        return user.getUsernameFallbackName();
     }
 
-    public void addIntegration(ServiceProvider serviceProvider, ServicePlayer servicePlayer) {
-        this.registeredServices.put(serviceProvider, servicePlayer);
+    public void addIntegration(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HumanPlayer that = (HumanPlayer) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
