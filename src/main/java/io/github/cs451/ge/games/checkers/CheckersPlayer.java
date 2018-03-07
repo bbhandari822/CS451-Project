@@ -1,6 +1,4 @@
-package io.github.cs451.ge.games.checkers.impl;
-
-import io.github.cs451.ge.games.checkers.CheckersColor;
+package io.github.cs451.ge.games.checkers;
 
 public class CheckersPlayer {
     private final CheckersColor teamColor;

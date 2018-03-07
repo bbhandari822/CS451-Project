@@ -10,7 +10,7 @@ import com.jtelegram.api.requests.message.edit.EditTextMessage;
 import com.jtelegram.api.user.User;
 import io.github.cs451.ge.bean.Lobby;
 import io.github.cs451.ge.bean.player.Player;
-import io.github.cs451.ge.games.checkers.impl.AmericanCheckers;
+import io.github.cs451.ge.games.checkers.Checkers;
 import io.github.cs451.ge.service.telegram.TelegramHandler;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ public class InlineChosenEvent implements EventHandler<ChosenInlineResultEvent> 
     @Override
     public void onEvent(ChosenInlineResultEvent event) {
         final TelegramBot bot = event.getBot();
-        Lobby<AmericanCheckers> checkersLobby = new Lobby<>(new AmericanCheckers(), 2);
+        Lobby<Checkers> checkersLobby = new Lobby<>(new Checkers(), 2);
 
         User user = event.getChosenResult().getFrom();
         Player player = handler.getPlayer(user);
