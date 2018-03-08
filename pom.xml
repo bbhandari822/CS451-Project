@@ -24,15 +24,16 @@
         <dependency>
             <groupId>com.jtelegram</groupId>
             <artifactId>jtelegrambotapi-core</artifactId>
-            <version>3.6.0-SNAPSHOT</version>
+            <version>3.6.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.jtelegram</groupId>
             <artifactId>jtelegrambotapi-menus</artifactId>
-            <version>3.6.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/amir/IdeaProjects/jTelegramBotAPI/jtelegrambotapi-menus/target/jtelegrambotapi-menus-3.6.0-SNAPSHOT.jar</systemPath>
+            <version>3.6.2-SNAPSHOT</version>
+            <scope>compile</scope>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>C:/Users/amir/IdeaProjects/jTelegramBotAPI/jtelegrambotapi-menus/target/jtelegrambotapi-menus-3.6.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
