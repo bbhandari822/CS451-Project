@@ -1,4 +1,7 @@
 package io.github.cs451.ge.adapter;
 
-public interface Action {
+import io.github.cs451.ge.game.Player;
+
+public interface Action<T extends Player> {
+    T getPlayer();
 }
