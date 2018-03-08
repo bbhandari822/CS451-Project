@@ -33,8 +33,8 @@ public class CheckersInline extends Menu {
     }
 
     @Override
-    public Consumer<TelegramException> getExceptionConsumer() {
-        return System.out::println;
+    public void handleException(TelegramException e) {
+        System.out.println(e.toString());
     }
 
     private MenuRow convert(CheckersRow checkersRow) {
