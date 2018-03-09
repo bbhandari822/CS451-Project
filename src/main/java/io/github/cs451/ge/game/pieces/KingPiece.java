@@ -6,7 +6,6 @@ import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Coordinate;
 import io.github.cs451.ge.game.moves.Move;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class KingPiece extends Piece {

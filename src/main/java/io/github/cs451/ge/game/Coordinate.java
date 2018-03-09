@@ -6,9 +6,9 @@ import java.util.function.Function;
 
 @Data
 public class Coordinate {
-    // Row - This is used to find the CheckersRow
+    // Row - Picks the row from Checkers
     private final int row;
-    // Column - This is whats used in CheckersRow
+    // Column - Picks the piece from CheckersRow
     private final int column;
 
     /**
@@ -23,7 +23,7 @@ public class Coordinate {
 
     public enum Direction {
         TOP_LEFT(coordinate -> {
-            return new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() - 1);
+            return new Coordinate(coordinate.getRow()-1,coordinate.getColumn()-1);
         }),
         TOP_RIGHT(coordinate -> {
             return new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() + 1);

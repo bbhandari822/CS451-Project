@@ -37,7 +37,7 @@ public class NormalPiece extends Piece {
             // we're out of bounds
             if (newPiece == null) continue;
 
-            if (newPiece.getPlayer() == null) {
+            if (newPiece.canOccupy()) {
                 moves.add(new NormalMove(this, newPiece));
                 continue;
             }
@@ -55,6 +55,7 @@ public class NormalPiece extends Piece {
     }
 
     private List<Coordinate.Direction> getAllowedDirections(Checkers checkers) {
+        // Top part of game is player1, bottom part is player2
         if (checkers.getPlayer1().equals(getPlayer())) {
             return Arrays.asList(Coordinate.Direction.BOTTOM_LEFT, Coordinate.Direction.BOTTOM_RIGHT);
         } else {

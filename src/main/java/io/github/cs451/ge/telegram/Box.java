@@ -39,6 +39,7 @@ public class Box extends MenuButton {
 
         System.out.println("Clicked a button: " + coordinate);
         if (parent.getCheckers().getPiece(coordinate).getPlayer() == null) return false;
+
         if (ThreadLocalRandom.current().nextDouble() < 0.5)
             parent.getCheckers().getPiece(coordinate).setSelected(true);
         else

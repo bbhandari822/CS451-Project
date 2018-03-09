@@ -13,7 +13,7 @@ public class Checkers implements Game {
     private final static int BOARD_SIZE = 8;
     private final CheckersPlayer player1;
     private final CheckersPlayer player2;
-    private final List<CheckersRow> rows = new ArrayList<>(8);
+    private final List<CheckersRow> rows = new ArrayList<>(BOARD_SIZE);
     private CheckersPlayer currentTurn;
 
     private void clear() {

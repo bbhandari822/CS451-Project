@@ -37,10 +37,6 @@ public class CheckersInline extends Menu {
         return rows;
     }
 
-    public CheckersInline generateNewBoard() {
-        return new CheckersInline(getBot(), checkers);
-    }
-
     @Override
     public void handleException(TelegramException e) {
         System.out.println(e.toString());
