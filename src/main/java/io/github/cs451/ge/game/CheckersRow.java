@@ -46,4 +46,8 @@ public class CheckersRow {
     public List<Piece> getPieces() {
         return pieces;
     }
+
+    public Piece getPiece(Coordinate coordinate) {
+        return pieces.get(coordinate.getY());
+    }
 }

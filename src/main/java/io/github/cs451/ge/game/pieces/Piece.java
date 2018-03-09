@@ -4,6 +4,7 @@ import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Coordinate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @RequiredArgsConstructor
 public abstract class Piece {
@@ -12,6 +13,9 @@ public abstract class Piece {
     private final CheckersPlayer player;
     @Getter
     private final Coordinate coordinate;
+    @Getter
+    @Setter
+    private boolean selected = false;
 
 
     public abstract String getTelegramDisplay();

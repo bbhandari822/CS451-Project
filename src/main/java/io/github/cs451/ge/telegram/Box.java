@@ -7,12 +7,20 @@ import io.github.cs451.ge.game.Coordinate;
 import io.github.cs451.ge.game.pieces.Piece;
 
 public class Box extends MenuButton {
+    private final CheckersInline parent;
     private final Coordinate coordinate;
     private final String label;
 
-    public Box(Piece piece) {
-        label = piece.getTelegramDisplay();
+    public Box(CheckersInline parent, Piece piece) {
+        this.parent = parent;
+        String lbl = piece.getTelegramDisplay();
         coordinate = piece.getCoordinate();
+
+        if (piece.isSelected()) {
+            lbl = String.format("[%s]", lbl);
+        }
+
+        this.label = lbl;
     }
 
     @Override

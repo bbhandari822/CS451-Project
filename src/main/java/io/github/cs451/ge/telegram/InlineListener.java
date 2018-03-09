@@ -27,22 +27,6 @@ public class InlineListener {
 
         MenuHandler.registerMenu(checkersInline);
 
-
-//        SimpleMenu menu = SimpleMenu.builder().bot(telegramBot).build();
-//
-//        AtomicInteger integer = new AtomicInteger();
-//        menu.addRow(MenuRow
-//                .from(SimpleMenuButton.builder()
-//                        .label("Test")
-//                        .onPress((simpleMenuButton, callbackQueryEvent) -> {
-//                            simpleMenuButton.setLabel("Another Test: " + integer.getAndIncrement());
-//                            return true;
-//                        })
-//                        .build()
-//                ));
-//        menu.addViewer(InlineMenuViewer.builder().inlineMessageId(event.getChosenResult().getInlineMessageId()).build());
-//
-//        MenuHandler.registerMenu(menu);
         System.out.println("Called3");
 
     }

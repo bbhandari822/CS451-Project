@@ -12,7 +12,6 @@ import io.github.cs451.ge.game.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class CheckersInline extends Menu {
     private final Checkers checkers;
@@ -47,6 +46,6 @@ public class CheckersInline extends Menu {
     }
 
     private Box convert(Piece piece) {
-        return new Box(piece);
+        return new Box(this, piece);
     }
 }
