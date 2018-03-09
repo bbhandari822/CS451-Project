@@ -9,11 +9,13 @@ import com.jtelegram.api.menu.MenuRow;
 import io.github.cs451.ge.game.Checkers;
 import io.github.cs451.ge.game.CheckersRow;
 import io.github.cs451.ge.game.pieces.Piece;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CheckersInline extends Menu {
+    @Getter
     private final Checkers checkers;
 
     protected CheckersInline(TelegramBot bot, Checkers checkers) {
@@ -23,6 +25,10 @@ public class CheckersInline extends Menu {
 
     @Override
     public List<MenuRow> getRows() {
+        return buildRows();
+    }
+
+    private List<MenuRow> buildRows() {
         List<MenuRow> rows = new ArrayList<>();
 
         for (CheckersRow row : checkers.getRows()) {
@@ -31,18 +37,21 @@ public class CheckersInline extends Menu {
         return rows;
     }
 
+    public CheckersInline generateNewBoard() {
+        return new CheckersInline(getBot(), checkers);
+    }
+
     @Override
     public void handleException(TelegramException e) {
         System.out.println(e.toString());
     }
 
     private MenuRow convert(CheckersRow checkersRow) {
-        List<MenuButton> boxes = new ArrayList<>();
+        List<Box> boxes = new ArrayList<>();
         for (Piece piece : checkersRow.getPieces()) {
             boxes.add(convert(piece));
         }
-        MenuRow menuRow = new MenuRow(boxes);
-        return menuRow;
+        return new MenuRow(boxes);
     }
 
     private Box convert(Piece piece) {

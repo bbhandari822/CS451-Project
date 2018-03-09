@@ -34,13 +34,18 @@ public class Checkers implements Game {
         rows.get(7).reset(false, player2);
     }
 
-    Piece getPiece(Coordinate coordinate) {
+    public Piece getPiece(Coordinate coordinate) {
         try {
             return rows.get(coordinate.getX()).getPiece(coordinate);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public void setPiece(Piece piece) {
+        Coordinate coordinate = piece.getCoordinate();
+        rows.get(coordinate.getX()).setPiece(piece);
     }
 
     public boolean handleAction(CheckersMoveAction action) {

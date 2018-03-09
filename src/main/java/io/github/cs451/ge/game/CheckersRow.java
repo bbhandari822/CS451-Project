@@ -21,14 +21,15 @@ public class CheckersRow {
         clear();
     }
 
-    public void addPiece(Piece piece, Coordinate coordinate) {
+    public void setPiece(Piece piece) {
+        Coordinate coordinate = piece.getCoordinate();
         pieces.set(coordinate.getX(), piece);
     }
 
     private void clear() {
         pieces.clear();
         for (int i = 0; i < size; i++) {
-            pieces.add(new EmptyPiece(new Coordinate(i, row)));
+            pieces.add(new EmptyPiece(new Coordinate(row, i)));
         }
     }
 
@@ -39,7 +40,7 @@ public class CheckersRow {
             starter = 1;
 
         for (int i = starter; i < size; i += 2) {
-            pieces.set(i, new NormalPiece(player, new Coordinate(i, row)));
+            pieces.set(i, new NormalPiece(player, new Coordinate(row, i)));
         }
     }
 
