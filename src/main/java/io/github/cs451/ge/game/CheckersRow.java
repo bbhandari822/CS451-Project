@@ -10,6 +10,7 @@ import java.util.List;
 
 @ToString
 public class CheckersRow {
+
     private final List<Piece> pieces;
     private final int size;
     private final int row;

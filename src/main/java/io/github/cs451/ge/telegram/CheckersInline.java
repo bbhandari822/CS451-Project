@@ -4,8 +4,8 @@ package io.github.cs451.ge.telegram;
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.menu.Menu;
-import com.jtelegram.api.menu.MenuButton;
 import com.jtelegram.api.menu.MenuRow;
+import com.jtelegram.api.util.TextBuilder;
 import io.github.cs451.ge.game.Checkers;
 import io.github.cs451.ge.game.CheckersRow;
 import io.github.cs451.ge.game.pieces.Piece;
@@ -15,11 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckersInline extends Menu {
+    private final String inlineMessageId;
     @Getter
     private final Checkers checkers;
 
-    protected CheckersInline(TelegramBot bot, Checkers checkers) {
+    public CheckersInline(TelegramBot bot, String inlineMessageId, Checkers checkers) {
         super(bot);
+        this.inlineMessageId = inlineMessageId;
         this.checkers = checkers;
     }
 
@@ -52,5 +54,11 @@ public class CheckersInline extends Menu {
 
     private Box convert(Piece piece) {
         return new Box(this, piece);
+    }
+
+    @Override
+    public TextBuilder getMenuMessage() {
+        return TextBuilder.create().plain(String.format("Current turn: %s", getCheckers().getCurrentTurn().getUser().getUsernameFallbackName()));
+
     }
 }

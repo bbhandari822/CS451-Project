@@ -3,11 +3,13 @@ package io.github.cs451.ge.telegram;
 
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import com.jtelegram.api.menu.MenuButton;
+import com.jtelegram.api.user.User;
+import io.github.cs451.ge.adapter.CheckersUIAction;
+import io.github.cs451.ge.adapter.CheckersUIResponse;
+import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Coordinate;
-import io.github.cs451.ge.game.pieces.KingPiece;
+import io.github.cs451.ge.game.PlayerRegistry;
 import io.github.cs451.ge.game.pieces.Piece;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Box extends MenuButton {
     private final CheckersInline parent;
@@ -33,19 +35,23 @@ public class Box extends MenuButton {
 
     @Override
     public boolean onPress(CallbackQueryEvent callbackQueryEvent) {
-        Piece currentPiece = parent.getCheckers().getPiece(coordinate);
+        try {
 
-        System.out.println(currentPiece.getPossibleMoves(parent.getCheckers()));
+            System.out.println("Called press");
+            User user = callbackQueryEvent.getQuery().getFrom();
+            CheckersPlayer player = PlayerRegistry.getPlayer(user);
 
-        System.out.println("Clicked a button: " + coordinate);
-        if (parent.getCheckers().getPiece(coordinate).getPlayer() == null) return false;
-
-        if (ThreadLocalRandom.current().nextDouble() < 0.5)
-            parent.getCheckers().getPiece(coordinate).setSelected(true);
-        else
-            parent.getCheckers().setPiece(new KingPiece(parent.getCheckers().getPiece(coordinate).getPlayer(), coordinate));
-
-        parent.update();
-        return false;
+            CheckersUIAction action = new CheckersUIAction(player, coordinate);
+            CheckersUIResponse response = parent.getCheckers().handleAction(action);
+            System.out.println(response);
+            if (response == null) {
+                System.out.println("boop");
+                return false;
+            }
+            return response.isSuccess();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

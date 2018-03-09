@@ -5,27 +5,25 @@ import com.jtelegram.api.events.inline.ChosenInlineResultEvent;
 import com.jtelegram.api.events.inline.InlineQueryEvent;
 import com.jtelegram.api.inline.input.InputTextMessageContent;
 import com.jtelegram.api.inline.result.InlineResultArticle;
-import com.jtelegram.api.menu.*;
+import com.jtelegram.api.menu.Menu;
+import com.jtelegram.api.menu.MenuHandler;
 import com.jtelegram.api.menu.viewer.InlineMenuViewer;
 import com.jtelegram.api.requests.inline.AnswerInlineQuery;
-import io.github.cs451.ge.game.Checkers;
-import io.github.cs451.ge.game.CheckersColor;
-import io.github.cs451.ge.game.CheckersPlayer;
+import io.github.cs451.ge.game.PlayerRegistry;
+import io.github.cs451.ge.telegram.lobby.CheckersLobby;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class InlineListener {
     public static void onEvent(ChosenInlineResultEvent event) {
-        TelegramBot telegramBot = event.getBot();
         System.out.println("Called1");
-        Checkers checkers = new Checkers(new CheckersPlayer(null, CheckersColor.RED), new CheckersPlayer(null, CheckersColor.WHITE));
-        checkers.resetBoard();
+        TelegramBot bot = event.getBot();
 
-        CheckersInline checkersInline = new CheckersInline(event.getBot(), checkers);
-        checkersInline.addViewer(InlineMenuViewer.builder().inlineMessageId(event.getChosenResult().getInlineMessageId()).build());
+        CheckersLobby checkers = new CheckersLobby(bot, PlayerRegistry.getPlayer(event.getChosenResult().getFrom()), event.getChosenResult().getInlineMessageId());
 
-        MenuHandler.registerMenu(checkersInline);
+        checkers.addViewer(InlineMenuViewer.builder().inlineMessageId(event.getChosenResult().getInlineMessageId()).build());
+
+        MenuHandler.registerMenu(checkers);
 
         System.out.println("Called3");
 
