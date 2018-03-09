@@ -24,8 +24,9 @@ public class JoinButton extends MenuButton {
         User user = callbackQueryEvent.getQuery().getFrom();
         CheckersPlayer player = PlayerRegistry.getPlayer(user);
 
-        lobby.join(player);
-        lobby.createGame();
+        if (lobby.join(player)) {
+            lobby.createGame();
+        }
         return false;
     }
 }

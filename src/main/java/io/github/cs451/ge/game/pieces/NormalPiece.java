@@ -54,6 +54,11 @@ public class NormalPiece extends Piece {
         return false;
     }
 
+    @Override
+    public Piece moveTo(Coordinate coordinate) {
+        return new NormalPiece(getPlayer(), coordinate);
+    }
+
     private List<Coordinate.Direction> getAllowedDirections(Checkers checkers) {
         // Top part of game is player1, bottom part is player2
         if (checkers.getPlayer1().equals(getPlayer())) {

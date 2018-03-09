@@ -24,8 +24,10 @@ public class CheckersLobby extends Menu {
         this.inlineMessageId = inlineMessageId;
     }
 
-    public void join(CheckersPlayer player) {
+    public boolean join(CheckersPlayer player) {
+        if (player.equals(lobbyOwner)) return false;
         opponent = player;
+        return true;
     }
 
     public CheckersInline createGame() {

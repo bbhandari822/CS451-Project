@@ -29,4 +29,9 @@ public class EmptyPiece extends Piece {
         return true;
     }
 
+    @Override
+    public Piece moveTo(Coordinate coordinate) {
+        return new EmptyPiece(coordinate);
+    }
+
 }

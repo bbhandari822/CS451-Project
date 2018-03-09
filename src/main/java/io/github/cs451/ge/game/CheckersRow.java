@@ -50,6 +50,10 @@ public class CheckersRow {
     }
 
     public Piece getPiece(Coordinate coordinate) {
-        return pieces.get(coordinate.getColumn());
+        try {
+            return pieces.get(coordinate.getColumn());
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

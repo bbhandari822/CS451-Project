@@ -2,6 +2,7 @@ package io.github.cs451.ge.game;
 
 import io.github.cs451.ge.adapter.CheckersUIAction;
 import io.github.cs451.ge.adapter.CheckersUIResponse;
+import io.github.cs451.ge.game.moves.Move;
 import io.github.cs451.ge.game.pieces.Piece;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,6 +10,8 @@ import lombok.ToString;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Consumer;
 
 @Getter
@@ -75,10 +78,53 @@ public class Checkers implements Game {
 
         if (result != null) return result;
 
-        return null;
+        return handleMove(action);
     }
 
+    private CheckersUIResponse handleMove(CheckersUIAction action) {
+        System.out.println("Calling handle move.");
+        // There is no selected piece.
+        if (selectedPiece == null) return null;
+
+        Set<Move> moves = getAllMoves(getPiece(selectedPiece));
+
+        boolean hasAttackMove = false;
+
+        Coordinate from = selectedPiece;
+        Coordinate to = action.getLocation();
+
+        Move selectedMove = null;
+        System.out.println(moves);
+        for (Move move : moves) {
+            System.out.println(move);
+            if (move.mustBeTaken()) hasAttackMove = true;
+
+            if (!move.getFrom().getCoordinate().equals(from) || !move.getTo().getCoordinate().equals(to)) {
+                continue;
+            }
+            selectedMove = move;
+            break;
+        }
+
+        if (selectedMove == null) {
+            return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.INVALID_MOVE);
+        }
+
+        // If there is a move that has to be taken.
+        if (hasAttackMove && !selectedMove.mustBeTaken()) {
+            return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.HAVE_TO_ATTACK);
+
+        }
+        selectedMove.apply(this);
+        processTurn();
+        removeSelection();
+        return new CheckersUIResponse(true, CheckersUIResponse.ResponseType.SUCCESS);
+    }
+
+
     private CheckersUIResponse handleSelection(CheckersUIAction action) {
+        System.out.println("Calling handle selection.");
+
         if (selectedPiece != null) return null;
 
         Coordinate selected = action.getLocation();
@@ -87,6 +133,7 @@ public class Checkers implements Game {
             return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.INVALID_SELECTION);
 
         piece.setSelected(true);
+        selectedPiece = piece.getCoordinate();
         return new CheckersUIResponse(true, CheckersUIResponse.ResponseType.SUCCESS);
     }
 
@@ -100,6 +147,12 @@ public class Checkers implements Game {
                 consumer.accept(piece);
             }
         }
+    }
+
+    private Set<Move> getAllMoves(Piece piece) {
+
+        Set<Move> moves = new TreeSet<>(piece.getPossibleMoves(this));
+        return moves;
     }
 
     private void resetTurn() {
@@ -117,5 +170,10 @@ public class Checkers implements Game {
         } else {
             currentTurn = player1;
         }
+    }
+
+    public boolean isAtBorder(Coordinate coordinate) {
+        if (coordinate.getRow() == 0 || coordinate.getRow() == BOARD_SIZE - 1) return true;
+        return false;
     }
 }

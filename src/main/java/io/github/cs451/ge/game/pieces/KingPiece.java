@@ -33,5 +33,10 @@ public class KingPiece extends Piece {
         return false;
     }
 
+    @Override
+    public Piece moveTo(Coordinate coordinate) {
+        return new KingPiece(getPlayer(), coordinate);
+    }
+
 
 }
