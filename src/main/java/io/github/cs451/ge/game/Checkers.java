@@ -36,7 +36,7 @@ public class Checkers implements Game {
 
     public Piece getPiece(Coordinate coordinate) {
         try {
-            return rows.get(coordinate.getX()).getPiece(coordinate);
+            return rows.get(coordinate.getRow()).getPiece(coordinate);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -45,7 +45,7 @@ public class Checkers implements Game {
 
     public void setPiece(Piece piece) {
         Coordinate coordinate = piece.getCoordinate();
-        rows.get(coordinate.getX()).setPiece(piece);
+        rows.get(coordinate.getRow()).setPiece(piece);
     }
 
     public boolean handleAction(CheckersMoveAction action) {

@@ -1,8 +1,12 @@
 package io.github.cs451.ge.game.pieces;
 
-import io.github.cs451.ge.game.*;
+import io.github.cs451.ge.game.Checkers;
+import io.github.cs451.ge.game.CheckersColor;
+import io.github.cs451.ge.game.CheckersPlayer;
+import io.github.cs451.ge.game.Coordinate;
+import io.github.cs451.ge.game.moves.Move;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class KingPiece extends Piece {
@@ -21,7 +25,14 @@ public class KingPiece extends Piece {
     }
 
     @Override
-    public List<Move> getPossibleMoves() {
-        return new ArrayList<>();
+    public List<Move> getPossibleMoves(Checkers checkers) {
+        return null;
     }
+
+    @Override
+    public boolean canOccupy() {
+        return false;
+    }
+
+
 }

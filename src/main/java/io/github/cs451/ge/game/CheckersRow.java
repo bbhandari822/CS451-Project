@@ -23,7 +23,7 @@ public class CheckersRow {
 
     public void setPiece(Piece piece) {
         Coordinate coordinate = piece.getCoordinate();
-        pieces.set(coordinate.getX(), piece);
+        pieces.set(coordinate.getColumn(), piece);
     }
 
     private void clear() {
@@ -49,6 +49,6 @@ public class CheckersRow {
     }
 
     public Piece getPiece(Coordinate coordinate) {
-        return pieces.get(coordinate.getY());
+        return pieces.get(coordinate.getColumn());
     }
 }
