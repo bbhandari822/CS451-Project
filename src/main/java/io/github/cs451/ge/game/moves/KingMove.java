@@ -16,9 +16,14 @@ public class KingMove extends Move {
 
     @Override
     public void apply(Checkers checkers) {
-        Piece piece = getFrom().moveTo(getTo().getCoordinate());
+        Piece piece = pieceUpgradeHandler(checkers);
+
         checkers.setPiece(new EmptyPiece(getFrom().getCoordinate()));
         checkers.setPiece(piece);
     }
 
+    @Override
+    public Piece pieceUpgradeHandler(Checkers checkers) {
+        return getFrom().moveTo(getTo().getCoordinate());
+    }
 }

@@ -9,9 +9,8 @@ import lombok.ToString;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.function.Consumer;
 
 @Getter
@@ -86,7 +85,8 @@ public class Checkers implements Game {
         // There is no selected piece.
         if (selectedPiece == null) return null;
 
-        Set<Move> moves = getAllMoves(getPiece(selectedPiece));
+        List<Move> moves = getAllMoves(getPiece(selectedPiece));
+        Collections.sort(moves);
 
         boolean hasAttackMove = false;
 
@@ -94,9 +94,8 @@ public class Checkers implements Game {
         Coordinate to = action.getLocation();
 
         Move selectedMove = null;
-        System.out.println(moves);
+        moves.forEach(m -> System.out.printf("%s - %s%n", m.getClass().getName(), m.toString()));
         for (Move move : moves) {
-            System.out.println(move);
             if (move.mustBeTaken()) hasAttackMove = true;
 
             if (!move.getFrom().getCoordinate().equals(from) || !move.getTo().getCoordinate().equals(to)) {
@@ -138,6 +137,7 @@ public class Checkers implements Game {
     }
 
     private void removeSelection() {
+        selectedPiece = null;
         loopOverPieces(piece -> piece.setSelected(false));
     }
 
@@ -149,10 +149,8 @@ public class Checkers implements Game {
         }
     }
 
-    private Set<Move> getAllMoves(Piece piece) {
-
-        Set<Move> moves = new TreeSet<>(piece.getPossibleMoves(this));
-        return moves;
+    private List<Move> getAllMoves(Piece piece) {
+        return piece.getPossibleMoves(this);
     }
 
     private void resetTurn() {

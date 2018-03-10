@@ -4,14 +4,12 @@ import io.github.cs451.ge.game.Checkers;
 import io.github.cs451.ge.game.CheckersColor;
 import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Coordinate;
-import io.github.cs451.ge.game.moves.AttackMove;
-import io.github.cs451.ge.game.moves.Move;
-import io.github.cs451.ge.game.moves.NormalMove;
+import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@ToString(callSuper = true)
 public class NormalPiece extends Piece {
 
     public NormalPiece(CheckersPlayer player, Coordinate coordinate) {
@@ -27,27 +25,6 @@ public class NormalPiece extends Piece {
         }
     }
 
-    @Override
-    public List<Move> getPossibleMoves(Checkers checkers) {
-        List<Move> moves = new ArrayList<>();
-        for (Coordinate.Direction direction : getAllowedDirections(checkers)) {
-            Coordinate newCoordinate = getCoordinate().apply(direction);
-            Piece newPiece = checkers.getPiece(newCoordinate);
-
-            // we're out of bounds
-            if (newPiece == null) continue;
-
-            if (newPiece.canOccupy()) {
-                moves.add(new NormalMove(this, newPiece));
-                continue;
-            }
-
-            if (canAttack(checkers, newPiece, direction)) {
-                moves.add(new AttackMove(this, newPiece, checkers.getPiece(newPiece.getCoordinate().apply(direction))));
-            }
-        }
-        return moves;
-    }
 
     @Override
     public boolean canOccupy() {
@@ -59,7 +36,8 @@ public class NormalPiece extends Piece {
         return new NormalPiece(getPlayer(), coordinate);
     }
 
-    private List<Coordinate.Direction> getAllowedDirections(Checkers checkers) {
+    @Override
+    List<Coordinate.Direction> getAllowedDirections(Checkers checkers) {
         // Top part of game is player1, bottom part is player2
         if (checkers.getPlayer1().equals(getPlayer())) {
             return Arrays.asList(Coordinate.Direction.BOTTOM_LEFT, Coordinate.Direction.BOTTOM_RIGHT);

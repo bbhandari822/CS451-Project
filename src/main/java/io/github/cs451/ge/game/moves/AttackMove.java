@@ -19,7 +19,8 @@ public class AttackMove extends Move {
 
     @Override
     public void apply(Checkers checkers) {
-        Piece piece = getFrom().moveTo(getTo().getCoordinate());
+        Piece piece = pieceUpgradeHandler(checkers);
+
         checkers.setPiece(new EmptyPiece(getFrom().getCoordinate()));
         checkers.setPiece(new EmptyPiece(kill.getCoordinate()));
 
