@@ -32,8 +32,6 @@
             <artifactId>jtelegrambotapi-menus</artifactId>
             <version>3.6.2-SNAPSHOT</version>
             <scope>compile</scope>
-            <!--<scope>system</scope>-->
-            <!--<systemPath>C:/Users/amir/IdeaProjects/jTelegramBotAPI/jtelegrambotapi-menus/target/jtelegrambotapi-menus-3.6.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

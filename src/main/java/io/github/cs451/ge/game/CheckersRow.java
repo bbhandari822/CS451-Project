@@ -10,6 +10,7 @@ import java.util.List;
 
 @ToString
 public class CheckersRow {
+
     private final List<Piece> pieces;
     private final int size;
     private final int row;
@@ -21,14 +22,15 @@ public class CheckersRow {
         clear();
     }
 
-    public void addPiece(Piece piece, Coordinate coordinate) {
-        pieces.set(coordinate.getX(), piece);
+    public void setPiece(Piece piece) {
+        Coordinate coordinate = piece.getCoordinate();
+        pieces.set(coordinate.getColumn(), piece);
     }
 
     private void clear() {
         pieces.clear();
         for (int i = 0; i < size; i++) {
-            pieces.add(new EmptyPiece(new Coordinate(i, row)));
+            pieces.add(new EmptyPiece(new Coordinate(row, i)));
         }
     }
 
@@ -39,11 +41,19 @@ public class CheckersRow {
             starter = 1;
 
         for (int i = starter; i < size; i += 2) {
-            pieces.set(i, new NormalPiece(player, new Coordinate(i, row)));
+            pieces.set(i, new NormalPiece(player, new Coordinate(row, i)));
         }
     }
 
     public List<Piece> getPieces() {
         return pieces;
+    }
+
+    public Piece getPiece(Coordinate coordinate) {
+        try {
+            return pieces.get(coordinate.getColumn());
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
