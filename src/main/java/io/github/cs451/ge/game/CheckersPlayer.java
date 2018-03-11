@@ -2,16 +2,21 @@ package io.github.cs451.ge.game;
 
 import com.jtelegram.api.user.User;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-public class CheckersPlayer extends Player {
+public class CheckersPlayer {
     @Getter
-    @Setter
-    private CheckersColor color;
+    private final Player player;
+    @Getter
+    private final CheckersColor color;
 
-    public CheckersPlayer(User user) {
-        super(user);
+    public CheckersPlayer(Player player, CheckersColor color) {
+        this.player = player;
+        this.color = color;
+    }
+
+    public User getUser() {
+        return player.getUser();
     }
 }

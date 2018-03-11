@@ -1,4 +1,4 @@
-package io.github.cs451.ge.telegram.lobby;
+package io.github.cs451.ge.telegram;
 
 
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
@@ -8,25 +8,25 @@ import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Player;
 import io.github.cs451.ge.game.PlayerRegistry;
 
-public class JoinButton extends MenuButton {
-    private final CheckersLobby lobby;
+public class DrawButton extends MenuButton {
+    private final CheckersInline parent;
 
-    public JoinButton(CheckersLobby lobby) {
-        this.lobby = lobby;
+    public DrawButton(CheckersInline parent) {
+        this.parent = parent;
     }
 
     @Override
     public String getLabel() {
-        return "Join";
+        return "Draw";
     }
 
     @Override
     public boolean onPress(CallbackQueryEvent callbackQueryEvent) {
         User user = callbackQueryEvent.getQuery().getFrom();
         Player player = PlayerRegistry.getPlayer(user);
-        if (lobby.join(player)) {
-            lobby.createGame();
-        }
-        return false;
+        CheckersPlayer checkersPlayer = parent.getCheckers().getPlayer(player);
+
+        parent.getCheckers().getCheckersDrawHandler().call(checkersPlayer);
+        return true;
     }
 }

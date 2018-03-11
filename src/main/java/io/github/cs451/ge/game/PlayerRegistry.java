@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerRegistry {
-    private static final Map<User, CheckersPlayer> map = new HashMap<>();
+    private static final Map<User, Player> map = new HashMap<>();
 
-    public static CheckersPlayer getPlayer(User user) {
-        return map.computeIfAbsent(user, CheckersPlayer::new);
+    public static Player getPlayer(User user) {
+        return map.computeIfAbsent(user, Player::new);
     }
 }

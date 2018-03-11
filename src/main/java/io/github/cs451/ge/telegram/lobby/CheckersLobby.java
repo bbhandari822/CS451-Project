@@ -9,23 +9,24 @@ import com.jtelegram.api.menu.MenuRow;
 import com.jtelegram.api.util.TextBuilder;
 import io.github.cs451.ge.game.Checkers;
 import io.github.cs451.ge.game.CheckersPlayer;
+import io.github.cs451.ge.game.Player;
 import io.github.cs451.ge.telegram.CheckersInline;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CheckersLobby extends Menu {
-    private final CheckersPlayer lobbyOwner;
+    private final Player lobbyOwner;
     private final String inlineMessageId;
-    private CheckersPlayer opponent;
+    private Player opponent;
 
-    public CheckersLobby(TelegramBot bot, CheckersPlayer lobbyOwner, String inlineMessageId) {
+    public CheckersLobby(TelegramBot bot, Player lobbyOwner, String inlineMessageId) {
         super(bot);
         this.lobbyOwner = lobbyOwner;
         this.inlineMessageId = inlineMessageId;
     }
 
-    public boolean join(CheckersPlayer player) {
+    public boolean join(Player player) {
         if (player.equals(lobbyOwner)) return false;
         opponent = player;
         return true;

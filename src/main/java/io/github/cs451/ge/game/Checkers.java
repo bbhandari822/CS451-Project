@@ -9,31 +9,47 @@ import lombok.ToString;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @Getter
 @ToString
 public class Checkers implements Game {
     private final static int BOARD_SIZE = 8;
-    private final CheckersPlayer player1;
-    private final CheckersPlayer player2;
-    private final List<CheckersRow> rows = new ArrayList<>(BOARD_SIZE);
+    private final Map<Player, CheckersPlayer> mapping = new HashMap<>();
     private final SecureRandom random = new SecureRandom();
 
-    private Coordinate selectedPiece;
+    private final CheckersPlayer player1;
+    private final CheckersPlayer player2;
 
+    private final List<CheckersRow> rows = new ArrayList<>(BOARD_SIZE);
+    private final CheckersDrawHandler checkersDrawHandler = new CheckersDrawHandler(this);
+
+    // Extras
+    private Coordinate selectedPiece;
     private CheckersPlayer currentTurn;
     private boolean mustTakeMoves;
     private CheckersPlayer winner;
 
+    @Getter
+    private boolean completed = false;
 
-    public Checkers(CheckersPlayer player1, CheckersPlayer player2) {
-        this.player1 = player1;
-        this.player2 = player2;
 
-        player1.setColor(CheckersColor.RED);
-        player2.setColor(CheckersColor.WHITE);
+    public Checkers(Player player1, Player player2) {
+
+        this.player1 = registerPlayer(player1, CheckersColor.RED);
+        this.player2 = registerPlayer(player2, CheckersColor.WHITE);
+
+    }
+
+    private CheckersPlayer registerPlayer(Player player, CheckersColor color) {
+        return mapping.computeIfAbsent(player, player3 -> new CheckersPlayer(player3, color));
+    }
+
+    public CheckersPlayer getPlayer(Player player) {
+        return mapping.get(player);
     }
 
     private void clear() {
@@ -69,11 +85,13 @@ public class Checkers implements Game {
     }
 
     public CheckersUIResponse handleAction(CheckersUIAction action) {
-        if (winner != null) return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.GAME_OVER);
+        if (completed) return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.GAME_OVER);
         // Only process action for the current player.
         if (!currentTurn.equals(action.getPlayer())) {
             return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.INVALID_TURN);
         }
+        // Reset the draw request.
+        checkersDrawHandler.reset();
 
         CheckersUIResponse result = handleSelection(action);
 
@@ -84,7 +102,6 @@ public class Checkers implements Game {
 
     private CheckersUIResponse handleSelection(CheckersUIAction action) {
         System.out.println("Calling handle selection.");
-
 
         if (selectedPiece != null) return null;
 
@@ -128,7 +145,7 @@ public class Checkers implements Game {
 
         Move selectedMove = null;
         moves.forEach(m -> System.out.printf("%s - %s%n", m.getClass().getName(), m.toString()));
-       // Searching for the move
+        // Searching for the move
         for (Move move : moves) {
             if (move.mustBeTaken()) hasAttackMove = true;
 
@@ -199,12 +216,14 @@ public class Checkers implements Game {
         CheckersMoveCollection p1Moves = getAllMoves(player1);
         if (p1Moves.isEmpty()) {
             winner = player2;
+            completed = true;
             return;
         }
         CheckersMoveCollection p2Moves = getAllMoves(player2);
 
         if (p2Moves.isEmpty()) {
             winner = player1;
+            completed = true;
             return;
         }
     }
@@ -223,6 +242,10 @@ public class Checkers implements Game {
 
     private CheckersMoveCollection getAllMoves(Piece piece) {
         return piece.getPossibleMoves(this);
+    }
+
+    public void endGame() {
+        completed = true;
     }
 
     private void resetTurn() {

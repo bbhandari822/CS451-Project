@@ -9,6 +9,7 @@ import io.github.cs451.ge.adapter.CheckersUIAction;
 import io.github.cs451.ge.adapter.CheckersUIResponse;
 import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Coordinate;
+import io.github.cs451.ge.game.Player;
 import io.github.cs451.ge.game.PlayerRegistry;
 import io.github.cs451.ge.game.pieces.Piece;
 
@@ -38,17 +39,17 @@ public class Box extends MenuButton {
     public boolean onPress(CallbackQueryEvent callbackQueryEvent) {
         try {
 
-            System.out.println("Called press");
             User user = callbackQueryEvent.getQuery().getFrom();
-            CheckersPlayer player = PlayerRegistry.getPlayer(user);
+            Player player = PlayerRegistry.getPlayer(user);
+            CheckersPlayer checkersPlayer = parent.getCheckers().getPlayer(player);
 
-            CheckersUIAction action = new CheckersUIAction(player, coordinate);
+            CheckersUIAction action = new CheckersUIAction(checkersPlayer, coordinate);
             CheckersUIResponse response = parent.getCheckers().handleAction(action);
             System.out.println(response);
             if (response == null) {
-                System.out.println("boop");
                 return false;
             }
+
             AnswerCallbackQuery answer = AnswerCallbackQuery.builder().showAlert(true).text(response.getResponseType().getMessage()).queryId(callbackQueryEvent.getQuery().getId()).build();
 
             if (!response.isSuccess()) {
