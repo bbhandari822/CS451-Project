@@ -12,7 +12,7 @@ public class ConfigurationLoader {
     public static Configuration loadConfiguration() {
         try {
             return gson.fromJson(new FileReader(new File("config.json")), Configuration.class);
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             return null;
         }
     }

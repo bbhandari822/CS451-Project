@@ -24,9 +24,6 @@ public class InlineListener {
         checkers.addViewer(InlineMenuViewer.builder().inlineMessageId(event.getChosenResult().getInlineMessageId()).build());
 
         MenuHandler.registerMenu(checkers);
-
-        System.out.println("Called3");
-
     }
 
     public static void onEvent(InlineQueryEvent event) {
@@ -36,7 +33,7 @@ public class InlineListener {
                 .title("Checkers")
                 .description("Checkers game")
                 .thumbUrl("https://i.imgur.com/NoIqczF.jpg")
-                .inputMessageContent(InputTextMessageContent.builder().messageText("Hi").build())
+                .inputMessageContent(InputTextMessageContent.builder().messageText("Placeholder").build())
                 .replyMarkup(Menu.KEYBOARD_MARKUP)
                 .build();
 

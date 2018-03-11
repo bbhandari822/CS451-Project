@@ -6,6 +6,7 @@ import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.menu.Menu;
 import com.jtelegram.api.menu.MenuHandler;
 import com.jtelegram.api.menu.MenuRow;
+import com.jtelegram.api.util.TextBuilder;
 import io.github.cs451.ge.game.Checkers;
 import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.telegram.CheckersInline;
@@ -30,20 +31,24 @@ public class CheckersLobby extends Menu {
         return true;
     }
 
-    public CheckersInline createGame() {
+    public void createGame() {
         Checkers game = new Checkers(lobbyOwner, opponent);
         game.resetBoard();
-        CheckersInline inline = new CheckersInline(getBot(), inlineMessageId, game);
+        CheckersInline inline = new CheckersInline(getBot(), game);
         MenuHandler.registerMenu(inline);
         MenuHandler.unregisterMenu(this);
 
         this.migrateTo(inline);
-        return inline;
     }
 
     @Override
     public List<MenuRow> getRows() {
         return Collections.singletonList(new MenuRow(Collections.singletonList(new JoinButton(this))));
+    }
+
+    @Override
+    public TextBuilder getMenuMessage() {
+        return TextBuilder.create().plain(String.format("Welcome to the Checkers Lobby. %s is waiting for someone to join.", lobbyOwner.getUser().getUsernameFallbackName()));
     }
 
     @Override

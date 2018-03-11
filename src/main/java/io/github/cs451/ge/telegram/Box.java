@@ -3,6 +3,7 @@ package io.github.cs451.ge.telegram;
 
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import com.jtelegram.api.menu.MenuButton;
+import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
 import com.jtelegram.api.user.User;
 import io.github.cs451.ge.adapter.CheckersUIAction;
 import io.github.cs451.ge.adapter.CheckersUIResponse;
@@ -48,6 +49,12 @@ public class Box extends MenuButton {
                 System.out.println("boop");
                 return false;
             }
+            AnswerCallbackQuery answer = AnswerCallbackQuery.builder().showAlert(true).text(response.getResponseType().getMessage()).queryId(callbackQueryEvent.getQuery().getId()).build();
+
+            if (!response.isSuccess()) {
+                callbackQueryEvent.getBot().perform(answer);
+            }
+
             return response.isSuccess();
         } catch (Exception ex) {
             ex.printStackTrace();

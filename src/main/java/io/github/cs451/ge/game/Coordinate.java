@@ -23,7 +23,7 @@ public class Coordinate {
 
     public enum Direction {
         TOP_LEFT(coordinate -> {
-            return new Coordinate(coordinate.getRow()-1,coordinate.getColumn()-1);
+            return new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() - 1);
         }),
         TOP_RIGHT(coordinate -> {
             return new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() + 1);

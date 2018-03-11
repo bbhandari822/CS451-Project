@@ -15,13 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckersInline extends Menu {
-    private final String inlineMessageId;
     @Getter
     private final Checkers checkers;
 
-    public CheckersInline(TelegramBot bot, String inlineMessageId, Checkers checkers) {
+    public CheckersInline(TelegramBot bot, Checkers checkers) {
         super(bot);
-        this.inlineMessageId = inlineMessageId;
         this.checkers = checkers;
     }
 
@@ -58,7 +56,10 @@ public class CheckersInline extends Menu {
 
     @Override
     public TextBuilder getMenuMessage() {
-        return TextBuilder.create().plain(String.format("Current turn: %s", getCheckers().getCurrentTurn().getUser().getUsernameFallbackName()));
-
+        if (getCheckers().getWinner() == null) {
+            return TextBuilder.create().plain(String.format("Current turn: %s", getCheckers().getCurrentTurn().getUser().getUsernameFallbackName()));
+        } else {
+            return TextBuilder.create().plain(String.format("Winner: %s", getCheckers().getWinner().getUser().getUsernameFallbackName()));
+        }
     }
 }

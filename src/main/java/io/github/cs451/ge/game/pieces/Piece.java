@@ -1,6 +1,7 @@
 package io.github.cs451.ge.game.pieces;
 
 import io.github.cs451.ge.game.Checkers;
+import io.github.cs451.ge.game.CheckersMoveCollection;
 import io.github.cs451.ge.game.CheckersPlayer;
 import io.github.cs451.ge.game.Coordinate;
 import io.github.cs451.ge.game.moves.AttackMove;
@@ -29,7 +30,7 @@ public abstract class Piece {
 
     public abstract String getTelegramDisplay();
 
-    public List<Move> getPossibleMoves(Checkers checkers) {
+    public CheckersMoveCollection getPossibleMoves(Checkers checkers) {
         List<Move> moves = new ArrayList<>();
         for (Coordinate.Direction direction : getAllowedDirections(checkers)) {
             Coordinate newCoordinate = getCoordinate().apply(direction);
@@ -47,7 +48,7 @@ public abstract class Piece {
                 moves.add(new AttackMove(this, newPiece, checkers.getPiece(newPiece.getCoordinate().apply(direction))));
             }
         }
-        return moves;
+        return new CheckersMoveCollection( moves);
     }
 
     public abstract boolean canOccupy();
@@ -56,24 +57,18 @@ public abstract class Piece {
         // This shouldn't happen.
         if (getPlayer() == null) return false;
 
-        System.out.println("A");
         // Make sure its a different player than the current piece.
         if (getPlayer().equals(otherPiece.getPlayer())) return false;
 
-        System.out.println("B");
         Coordinate jumpCoordinate = otherPiece.coordinate.apply(direction);
         Piece jumpPiece = checkers.getPiece(jumpCoordinate);
 
-        System.out.println("C");
         // Out of bounds
         if (jumpPiece == null) return false;
 
-        System.out.println("D");
         // It's an empty block
-        if (jumpPiece.canOccupy()) return true;
+        return jumpPiece.canOccupy();
 
-        System.out.println("E");
-        return false;
     }
 
     public abstract Piece moveTo(Coordinate coordinate);

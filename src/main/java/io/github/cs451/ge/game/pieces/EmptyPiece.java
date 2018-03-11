@@ -1,8 +1,8 @@
 package io.github.cs451.ge.game.pieces;
 
 import io.github.cs451.ge.game.Checkers;
+import io.github.cs451.ge.game.CheckersMoveCollection;
 import io.github.cs451.ge.game.Coordinate;
-import io.github.cs451.ge.game.moves.Move;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public List<Move> getPossibleMoves(Checkers checkers) {
-        return new ArrayList<>();
+    public CheckersMoveCollection getPossibleMoves(Checkers checkers) {
+        return new CheckersMoveCollection();
 
     }
 
