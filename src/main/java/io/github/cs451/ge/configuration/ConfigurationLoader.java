@@ -11,8 +11,6 @@ public class ConfigurationLoader {
 
     public static Configuration loadConfiguration() {
         try {
-            //gives back configuration class
-            //read the json file and map it to an actual class.
             return gson.fromJson(new FileReader(new File("config.json")), Configuration.class);
         } catch (Exception e) {
             return null;

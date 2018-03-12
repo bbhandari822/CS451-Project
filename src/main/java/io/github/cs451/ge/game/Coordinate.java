@@ -35,7 +35,6 @@ public class Coordinate {
             return new Coordinate(coordinate.getRow() + 1, coordinate.getColumn() + 1);
         });
         private final Function<Coordinate, Coordinate> function;
-        //function is just a piece of code but as an object.
 
         Direction(Function<Coordinate, Coordinate> function) {
             this.function = function;
