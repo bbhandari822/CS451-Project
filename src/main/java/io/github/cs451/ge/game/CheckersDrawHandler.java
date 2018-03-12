@@ -24,7 +24,7 @@ public class CheckersDrawHandler {
         return drawRequester != null;
     }
 
-    private void confirmDraw(CheckersPlayer checkersPlayer) {
+    void confirmDraw(CheckersPlayer checkersPlayer) {
         if (checkersPlayer.equals(drawRequester)) return;
 
         confirmed = true;

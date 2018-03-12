@@ -24,6 +24,6 @@ public class CheckersMoveCollectionTest {
     @Test
     public void isEmpty() {
         CheckersMoveCollection checkersMoveCollection = new CheckersMoveCollection();
-        assertEquals(checkersMoveCollection.isEmpty(),true);
+        assertTrue(checkersMoveCollection.isEmpty());
     }
 }

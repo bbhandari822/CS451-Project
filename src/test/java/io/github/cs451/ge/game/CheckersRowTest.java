@@ -7,26 +7,27 @@ import io.github.cs451.ge.game.pieces.Piece;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Binod Bhandari on 3/11/18.
  */
 public class CheckersRowTest {
 
+    CheckersRow checkersRow = new CheckersRow(8, 8);
     private Player player1;
     private User user1;
-    CheckersRow checkersRow = new CheckersRow(8,8);
     private CheckersPlayer player2;
+
     private User getUser() {
         return mock(User.class);
     }
 
     @Before
     public void prep() {
-        Checkers checkers = new Checkers(player1,player1);
+        Checkers checkers = new Checkers(player1, player1);
 
         user1 = getUser();
         when(user1.getUsernameFallbackName()).thenReturn("Tester1");
@@ -34,7 +35,7 @@ public class CheckersRowTest {
     }
 
 
-//    Coordinate coordinate = piece.getCoordinate();
+    //    Coordinate coordinate = piece.getCoordinate();
 //    pieces.set(coordinate.getColumn(), piece);
     @Test
     public void setPiece() throws AssertionError {
@@ -57,7 +58,7 @@ public class CheckersRowTest {
 
     @Test
     public void getPiece() throws NullPointerException {
-        Coordinate coordinate = new Coordinate(0,0);
+        Coordinate coordinate = new Coordinate(0, 0);
         Piece piece = new EmptyPiece(coordinate);
         checkersRow.getPieces();
         assertEquals(piece.isSelected(), false);

@@ -4,7 +4,9 @@ import io.github.cs451.ge.adapter.CheckersUIAction;
 import io.github.cs451.ge.adapter.CheckersUIResponse;
 import io.github.cs451.ge.game.moves.Move;
 import io.github.cs451.ge.game.pieces.Piece;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.security.SecureRandom;
@@ -30,6 +32,7 @@ public class Checkers implements Game {
 
     // Extras
     private Coordinate selectedPiece;
+    @Setter(value = AccessLevel.PACKAGE)
     private CheckersPlayer currentTurn;
     private boolean mustTakeMoves;
     private CheckersPlayer winner;
@@ -108,7 +111,7 @@ public class Checkers implements Game {
 
         Coordinate selected = action.getLocation();
         Piece piece = getPiece(selected);
-        if (piece.getPlayer() == null || !piece.getPlayer().equals(action.getPlayer()))
+        if (piece == null || piece.getPlayer() == null || !piece.getPlayer().equals(action.getPlayer()))
             return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.INVALID_SELECTION);
 
 
@@ -128,7 +131,7 @@ public class Checkers implements Game {
         // There is no selected piece.
         if (selectedPiece == null) return null;
 
-        // Player wants to disselect
+        // Player wants to deselect
         if (selectedPiece.equals(action.getLocation())) {
             if (mustTakeMoves) {
                 return new CheckersUIResponse(false, CheckersUIResponse.ResponseType.MUST_COMPLETE_JUMPS);
