@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 @Getter
@@ -191,7 +192,10 @@ public class Checkers implements Game {
      */
     private void removeSelection() {
         selectedPiece = null;
-        loopOverPieces(piece -> piece.setSelected(false));
+        loopOverPieces(piece -> {
+            piece.setSelected(false);
+            piece.setUsed(false);
+        });
     }
 
     /**
@@ -202,6 +206,9 @@ public class Checkers implements Game {
     private void applySelection(Piece piece) {
         selectedPiece = piece.getCoordinate();
         piece.setSelected(true);
+        CheckersMoveCollection moves = getAllMoves(piece);
+        moves.applyFormatting();
+
     }
 
     private void loopOverPieces(Consumer<Piece> consumer) {
@@ -246,6 +253,7 @@ public class Checkers implements Game {
 
     public void endGame() {
         completed = true;
+        removeSelection();
     }
 
     private void resetTurn() {
@@ -268,5 +276,14 @@ public class Checkers implements Game {
 
     public boolean isAtBorder(Coordinate coordinate) {
         return coordinate.getRow() == 0 || coordinate.getRow() == BOARD_SIZE - 1;
+    }
+
+    public int getPiecesLeft(CheckersPlayer p) {
+        AtomicInteger count = new AtomicInteger();
+        loopOverPieces(piece -> {
+            if (piece.getPlayer() == null) return;
+            if (piece.getPlayer().equals(p)) count.incrementAndGet();
+        });
+        return count.get();
     }
 }

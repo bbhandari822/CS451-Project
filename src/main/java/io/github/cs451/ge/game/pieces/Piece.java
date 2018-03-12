@@ -25,8 +25,11 @@ public abstract class Piece {
     private final Coordinate coordinate;
     @Getter
     @Setter
+    // This allows highlighting
+    private boolean used = false;
+    @Getter
+    @Setter
     private boolean selected = false;
-
 
     public abstract String getTelegramDisplay();
 
@@ -48,7 +51,7 @@ public abstract class Piece {
                 moves.add(new AttackMove(this, newPiece, checkers.getPiece(newPiece.getCoordinate().apply(direction))));
             }
         }
-        return new CheckersMoveCollection( moves);
+        return new CheckersMoveCollection(moves);
     }
 
     public abstract boolean canOccupy();

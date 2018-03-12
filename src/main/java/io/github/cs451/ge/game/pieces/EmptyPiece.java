@@ -17,7 +17,7 @@ public class EmptyPiece extends Piece {
 
     @Override
     public String getTelegramDisplay() {
-        return ".";
+        return isUsed() ? "❎" : ".";
     }
 
     @Override

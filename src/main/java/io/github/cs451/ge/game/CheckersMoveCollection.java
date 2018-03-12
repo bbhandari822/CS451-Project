@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 
 @ToString
@@ -48,5 +48,14 @@ public class CheckersMoveCollection implements Iterable<Move> {
 
     public boolean isEmpty() {
         return moves.isEmpty();
+    }
+
+    public void applyFormatting() {
+        Stream<Move> stream = moves.stream();
+        if (hasAnAttackMove()) {
+            stream = stream.filter(Move::mustBeTaken);
+        }
+        stream.forEach(move -> move.getTo().setUsed(true));
+
     }
 }
