@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.se410-project.ge</groupId>
-    <artifactId>GameEngine</artifactId>
+    <artifactId>bbhandari822_bot</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
     <name>GameEngine</name>

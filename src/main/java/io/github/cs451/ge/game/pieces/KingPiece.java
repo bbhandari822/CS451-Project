@@ -19,6 +19,7 @@ public class KingPiece extends Piece {
     @Override
     public String getTelegramDisplay() {
         if (getPlayer().getColor() == CheckersColor.RED) {
+            //🍎
             return "\uD83C\uDF4E";
         } else {
             return "⬜";
